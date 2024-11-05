@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import {computed} from 'vue';
 import type { Task, ID } from '~/types';
-import { onKeyStroke } from "@vueuse/core"
+import { onKeyStroke, useDateFormat } from "@vueuse/core"
 
 
 const props = defineProps<{
@@ -14,6 +15,8 @@ const emit = defineEmits<{
 
 const focused = ref(false);
 
+const createdAt = computed(() => useDateFormat(props.task.createdAt, "MMM D, YYYY").value);
+
 onKeyStroke("Backspace", (e) => {
     if(focused.value) emit("delete", props.task.id);
 });
@@ -22,15 +25,15 @@ onKeyStroke("Backspace", (e) => {
 <template>
     <div 
       :title="task.createdAt.toLocaleString()"
-      class="task bg-white p-2 mb-2 rounded shadow-sm max-w-[250px] flex"
+      class="task bg-white p-2 mb-2 rounded shadow-sm max-w-[250px] flex items-start gap-x-2"
       @focus="$event => focused = true"
       @blur="$event => focused = false"
       tabindex="0"
       >
-        <DragHandle class="pr-2"  />
+        <DragHandle class="pr-2 pt-1"  />
             <span>
               {{ task.title }}
-              {{  task.createdAt }}
+              <strong>{{  createdAt }}</strong>
             </span>
     </div>
 </template>
