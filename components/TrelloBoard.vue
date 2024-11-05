@@ -81,7 +81,7 @@ function createColumn() {
     <draggable
     v-model="columns"
     :animations="150"
-    handle=".drag-handle"
+ 
     group="columns"
     item-key="id"
     class="flex gap-4 overflow-x-auto items-start">
@@ -89,7 +89,7 @@ function createColumn() {
 <template #item="{ element: column }: { element: Column }">
   <div class="column bg-gray-200 p-5 rounded min-w-[250px]">
         <header class="font-bold mb-4">
-            <DragHandle  />
+            <!-- <DragHandle  /> -->
             <input 
                class="bg-transparent focus:bg-white rounded px-1 w-4/5" 
                @keyup.enter="($event.target as HTMLInputElement).blur()"
