@@ -3,8 +3,11 @@ import TrelloBoardTask from './TrelloBoardTask.vue';
 import type { Column, Task } from '~/types';
 import { nanoid } from 'nanoid';
 import draggable from "vuedraggable";
+//import { VueDraggableNext as draggable } from 'vue-draggable-next';
 import NewTask from './NewTask.vue';
 import { useLocalStorage, useKeyModifier } from "@vueuse/core"
+
+
 
 
 const columns = useLocalStorage<Column[]>("trelloBoard",[
@@ -69,10 +72,16 @@ function createColumn() {
     };
     columns.value.push(column);
     nextTick(() => {
-
-        (document.querySelector(".column:last-of-type .title-input") as HTMLInputElement).focus()
+     const newColumnInput = document.querySelector(".column:last-of-type .title-input") as HTMLInputElement;
+       if (newColumnInput) {
+         newColumnInput.focus();
+       }
     });
 }
+
+// export default{
+//   components: draggable;    
+// }
 
 </script>
 
@@ -81,7 +90,6 @@ function createColumn() {
     <draggable
     v-model="columns"
     :animations="150"
-    handle=".drag-handle"
     group="columns"
     item-key="id"
     class="flex gap-4 overflow-x-auto items-start">
@@ -119,5 +127,8 @@ function createColumn() {
     </div>
    </template>
     </draggable>
+    <button @click="createColumn" class="bg-gray-200 whitespace-nowrap p-2 rounded opacity-50">
+        + Add Another Column
+    </button>
     </div>
 </template>
